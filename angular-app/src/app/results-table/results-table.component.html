@@ -1,0 +1,6 @@
+ <div class="enclosing_div_child">
+      <div class="result_parent" [@slide_child]="current_page_child">
+          <div class="list_class"><app-results-list (emitted_string)="onEmitted($event)"></app-results-list></div>  
+          <div class="details_class"><app-product-details [each_prod]="each_prod" (emitted_string)="onEmitted($event)"></app-product-details></div>
+      </div>
+  </div>

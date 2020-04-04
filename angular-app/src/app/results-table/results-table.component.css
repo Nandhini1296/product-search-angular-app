@@ -1,0 +1,30 @@
+:host {
+    display: block;
+    overflow: hidden; 
+  }
+
+.result_parent {
+    height: 100%;
+    width: 200%;      
+    display: flex;    
+}
+
+.result_parent div { 
+    flex: 1; 
+    width: 100%;
+} 
+
+.enclosing_div_child{
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+
+.list_class {
+    overflow:scroll;
+}
+
+.details_class {
+    overflow: scroll;
+}

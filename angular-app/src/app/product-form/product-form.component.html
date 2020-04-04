@@ -1,0 +1,219 @@
+<html>
+<head>
+  <style>
+    .container-fluid{
+      margin: 0 auto;
+      width: 75%;
+      background-color: #181818;
+      color: white;
+      margin-top: 50px;
+      padding-bottom: 30px;
+    }
+
+    .buttons_slider {
+      margin: 0 auto;
+      width: 75%;
+      text-align: center;
+    }
+
+    .enclosing_div {
+      width: 100%;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    #gap{
+      height: 50px;
+    }
+
+    .form_div {
+      width: 75%;
+      margin: 0 auto;
+    }
+
+    .button_class {
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    #gap {
+      height: 6px;
+    }
+
+    #gap2 {
+      height: 20px;
+    }
+
+    #star {
+      color: #C80000;
+      font-size: 90%;
+      line-height: 0;
+    }
+
+    .product_search {
+      text-align: center;
+      width: 75%;
+      margin: 0 auto;
+      padding-top: 20px;
+      padding-bottom: 10px;
+      font-size: 20px;
+    }
+
+    small {
+      color: #C80000;
+    }
+
+    .nav_table {
+      margin: 0 auto;
+      width: 75%;
+    }
+  </style>
+</head>
+<body>
+<div class="container-fluid">
+  <div class="product_search">
+      <p id="product">Product Search</p>
+  </div>
+  <div class="form_div">
+    <form class="example-form" [formGroup]="formGroup" (ngSubmit)="onMyFormSubmit()">
+      <div class="form-group row">
+        <label for="keyword" class="col-sm-3 col-form-label"><p>Keyword<sup id="star">*</sup></p></label> 
+        <div class="col-sm-8">
+          <input type="text" formControlName="keyword_name"  
+          pattern="\s*\S+[\s*\S+]*\s*" [class.is-invalid]="keyword_name.invalid && keyword_name.touched" 
+          class="form-control" placeholder="Enter Product Name (eg.IPhone 6)" required>
+          <small [class.d-none]="keyword_name.valid || keyword_name.untouched">Please enter a keyword.</small>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="categories" class="col-sm-3 col-form-label">Categories</label>
+        <div class="col-sm-4">
+          <select id="categories" formControlName="category" class="form-control">
+            <option selected value="0">All Categories</option>
+            <option value="550">Art</option>
+            <option value="2984">Baby</option>
+            <option value="267">Books</option>
+            <option value="11450">Clothing, Shoes & Accessories</option>
+            <option value="58058">Computers/Tablets & Networking</option>
+            <option value="26395">Health & Beauty</option>
+            <option value="11233">Music</option>
+            <option value="1249">Video Games & Consoles</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="condition" class="col-sm-3 col-form-label">Condition</label>
+        <div class="col-sm-8">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" formControlName="new_condition" type="checkbox" id="new" name="condition[]" value="New">
+            <label class="form-check-label" for="new">New</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" formControlName="used_condition" type="checkbox" id="used" name="condition[]" value="Used">
+            <label class="form-check-label" for="used">Used</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" formControlName="unspec_condition" type="checkbox" id="unspec" name="condition[]" value="Unspecified">
+            <label class="form-check-label" for="unspec">Unspecified</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="shipping" class="col-sm-3 col-form-label">Shipping Options</label>
+        <div class="col-sm-8">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" formControlName="local_shipping" type="checkbox" id="local" name="shipping[]" value="LocalPickup">
+            <label class="form-check-label" for="local">Local Pickup</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" formControlName="free_shipping" type="checkbox" name="shipping[]" id="free" value="FreeShipping">
+            <label class="form-check-label" for="free">Free Shipping</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="distance" class="col-sm-3 col-form-label">Distance (Miles)</label> 
+        <div class="col-sm-4">
+          <input type="number" formControlName="distance" class="form-control" id="distance"
+    placeholder="10">
+        </div>
+      </div>
+  
+    <div class="form-group row">  
+        <label for="from" class="col-sm-3 col-form-lab el"><p>From<sup id="star">*</sup></p></label>
+        <div class="col-sm-8">
+          <div class="form-check">
+            <input class="form-check-input" (change)="disable_zip()" value="current" formControlName="location" type="radio" id="currentloc" checked="true">
+            <label class="form-check-label" for="currentloc">Current Location</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" (change)="enable_zip()" value="from_zip" formControlName="location" type="radio" id="other">
+            <label class="form-check-label" for="other">Other. Please specify zip code</label>
+          </div>
+          <div id="gap"></div>
+          <div class="form-group">
+                <input formControlName="zip_code" (keyup)="zip_call_function()"
+                 pattern="^\d{5}$" [class.is-invalid]="zip_code.value.trim()=='' && zip_code.touched" 
+                 class="form-control" matInput [matAutocomplete]="auto" type="text" placeholder="" required>
+                 <mat-autocomplete #auto="matAutocomplete">
+                   <mat-option *ngFor="let option of options" [value]="option">
+                     {{option}}
+                   </mat-option>
+                 </mat-autocomplete>
+                <small [class.d-none]="zip_code.value.trim()!='' || zip_code.untouched">Please enter a zip code.</small>
+          </div>
+      </div>
+    </div>
+  
+      <div class="btn-toolbar">
+        <div class="btn-group mr-4">
+            <button type="submit" class="btn btn-light d-flex justify-content-center align-content-between" [disabled]="!formGroup.valid" ><i class="material-icons md-18">search</i>Search</button>
+        </div>
+        <div class="btn-group mr-4">
+            <button type="button" (click)="onClear()" class="btn btn-light d-flex justify-content-center align-content-between"><i class="material-icons md-18">clear_all</i>Clear</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div id="gap2"></div>
+<!-- ER{{emptyResults}} SR{{showresult}} SC{{searchclicked}} -->
+<div class="nav_table">
+<div class="centered-button tb-2">
+  <div class="btn-group mr-3">
+    <button (click)="tab_slider()"  class="btn" [ngClass]="{'btn-dark': results_dark, 'btn-light': !results_dark}">Results</button>
+  </div>
+  <div class="btn-group mr-3">
+    <button (click)="tab_slider_w()"  class="btn" [ngClass]="{'btn-dark': wish_dark, 'btn-light': !wish_dark}">Wish List</button>
+  </div>
+</div>
+<br>
+<div class="progress" [class.d-none]="hide_progress || emptyResults">
+  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width:50%"></div>
+</div>
+
+<div class="enclosing_div">
+  <div [class.d-none]="!hidewishlist">
+  <!-- <div class="parent" [@slide]="current_page"> -->
+      <div class="progress" [class.d-none]="child_progress">
+          <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width:50%"></div>
+      </div>
+      <div *ngIf='!emptyResults && showresult && searchclicked' class="results_class" [class.d-none]="!child_progress"><app-results-table></app-results-table></div>
+      <div *ngIf="!showresult || !searchclicked"></div>
+      <div [class.d-none]="!child_progress" *ngIf='emptyResults'>
+        <div class="alert alert-warning justify-content-left align-content-between">
+          <p>No Records.</p>
+        </div>
+      </div>
+    </div>
+      <div [class.d-none]="hidewishlist" class="wish_class"><app-wish-list></app-wish-list></div>
+    <!-- </div> -->
+   
+</div>
+</div>
+</body>
+</html> 

@@ -1,0 +1,67 @@
+.button_float {
+    float: right;
+}
+
+.pagination_class:hover {
+    text-decoration: none;
+}
+
+.pagination_class {
+    text-decoration: none;
+}
+
+table {
+    width: 100%;
+    margin: 0 auto;
+}
+
+::ng-deep .pagination .page-item .page-link {
+    border-radius: 0 !important;
+  }
+ 
+::ng-deep .pagination .page-link {
+    border-top-style: none !important;
+    border-bottom-style: none !important;
+    border-left-style: none !important;
+    border-right-style: none !important;
+    background-color:white !important;
+    color: black !important;
+}
+
+::ng-deep .pagination .page-link:hover {
+    text-decoration: underline;
+}
+
+ 
+::ng-deep .pagination li.active a {
+    background-color: black !important;
+    color: white !important;
+}
+
+::ng-deep .pagination li.disabled a {
+    opacity: 0.4 !important;
+}
+
+.c-blue{
+    color:   #002080;
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    opacity: 5;
+  }
+
+/* .table-striped > tbody > tr:nth-child(odd) > td, .table-striped > tbody > tr:nth-child(odd) > th {
+    background-color: #181818;
+} */
+
+/* .table-striped > tbody > tr:nth-child(even) > td, .table-striped > tbody > tr:nth-child(even) > th {
+    background-color: #202020;
+} */
+
+.c-peru{
+    color: peru;
+}
+
+.highlight {
+    background-color: #D3D3D3;
+}

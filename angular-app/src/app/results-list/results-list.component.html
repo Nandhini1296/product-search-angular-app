@@ -1,0 +1,49 @@
+<br>
+<!-- ER{{truth.emptyResults}} SR{{truth.showresult}} SC{{truth.searchclicked}} -->
+<div class="res_component_div">
+    <div class="progress" [class.d-none]="list_progress">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width:50%"></div>
+    </div>
+    <div [class.d-none]="!list_progress">
+  <div class="button_float">
+      <button (click)="child_page_slider()" 
+      [disabled]="selected_item == null || selected_item ==undefined" class="btn btn-sm btn-light d-flex justify-content-center align-content-between">Detail<i class="material-icons md-12">keyboard_arrow_right</i>
+      </button>
+  </div>
+  <br><br>
+  <div id="results_table">
+  <table class="table table-dark table-striped table-condensed table-hover">
+      <tr>
+        <th>#</th>
+        <th>Image</th>
+        <th>Title</th>
+        <th>Price</th>
+        <th>Shipping</th>
+        <th>Zip</th>
+        <th>Seller</th>
+        <th>Wish List</th>
+      </tr>
+      <tr *ngFor = "let product of objects_array | slice: (page_number - 1) * page_size: (page_number - 1) * page_size + page_size; index as i">
+        <td [ngClass]="{'highlight': selected_item==product}" >{{1+ objects_array.indexOf(product) }}</td>
+        <td [ngClass]="{'highlight': selected_item==product}" ><a href="{{product.image}}" target="_blank"><img src="{{product.image}}" width="112" height="122"></a></td>
+        <td [ngClass]="{'highlight': selected_item==product}" > <div matTooltip="{{product.title}}" matTooltipPosition="below"><button class="btn btn-link" (click)='onTitleClick(product)'>
+          <p *ngIf="product.condensed" class="c-blue" >{{product.cut_title}}</p>
+          <p class="c-blue" *ngIf="!product.condensed">{{product.title}}</p>
+        </button></div></td>
+        <td [ngClass]="{'highlight': selected_item==product}" >{{product.price}}</td>
+        <td [ngClass]="{'highlight': selected_item==product}" >{{product.shipping}}</td>
+        <td [ngClass]="{'highlight': selected_item==product}" >{{product.zip}}</td>
+        <td [ngClass]="{'highlight': selected_item==product}" >{{product.seller.toUpperCase()}}</td>
+        <td [ngClass]="{'highlight': selected_item==product}" ><button (click)= "removefromwishlist(product)" *ngIf="product.wishlist == true" class="btn btn-xs btn-light d-flex justify-content-center align-content-between"><i class="material-icons md-12 c-peru">remove_shopping_cart</i></button><button *ngIf="product.wishlist == false" (click)="addtowishlist(product)"class="btn btn-xs btn-light d-flex justify-content-center align-content-between"><i class="material-icons md-12">add_shopping_cart</i></button></td>
+      </tr>
+  </table>
+  <br>
+  <ngb-pagination class="justify-content-md-center d-flex" [(page)]="page_number" [(pageSize)]="page_size" [collectionSize]="objects_array.length">
+    <ng-template ngbPaginationPrevious><span aria-hidden="true" class="pagination_class">&laquo;</span>Previous</ng-template>
+    <ng-template ngbPaginationNext>Next<span aria-hidden="true" class="pagination_class">&raquo;</span></ng-template>
+    <ng-template ngbPaginationNumber let-p>{{p}}</ng-template>
+  </ngb-pagination>
+  </div>
+    </div>
+</div>
+  

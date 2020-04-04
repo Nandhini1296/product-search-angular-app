@@ -1,0 +1,143 @@
+.button_float {
+    float: left;
+}
+
+:host ::ng-deep .tabset1 a.nav-link {
+    color: #181818;
+  }
+  
+:host ::ng-deep .tabset1 a.nav-link.active {
+    color: white;
+    background-color: #181818;
+}
+
+.header_enclosed{
+    display: inline;   
+}
+
+.icons_class {
+    float:right;
+    display: flex;
+}
+
+.facebook_image {
+    margin-right: 2px;
+}
+
+#cart_button {
+    width: 39px;
+    height: 39px;
+}
+
+.table {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.tabset-width {
+    width: 100%;
+    margin:0 auto;
+}
+
+.total_div {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.word-wrap{
+    word-break: break-all;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+td {
+    word-break: break-all;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.wrong {
+    color: red;
+}
+
+.correct {
+    color: green;
+}
+
+.s-yellow {
+    color: yellow;
+}
+
+.s-turquoise {
+    color: turquoise;
+}
+
+.s-purple {
+    color: purple;
+}
+
+.s-blue {
+    color: blue;
+}
+
+.s-silver {
+    color: silver;
+}
+
+.s-green {
+    color: #99ff98
+}
+
+.round_prog_div {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-top: 0;
+    margin-right: 0;
+    transform: translate(-1.7%, -20%);
+    -ms-transform: translate(-1.7%, -20%);
+}
+
+.percent_text {
+    position: relative;
+    z-index: 1;
+    font-size: 10px;
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.empty_results {
+    background-color: #fff0b3;
+    text-align: left;
+    border-color:#ffeb99;
+    border-style: solid;
+    color: #804d00;
+    font-family: helvetica;
+    height: 44px;
+    line-height: 44px;
+  }
+
+  .alert-warning{
+      text-align: left;
+  }
+
+.bordering{
+    border: 7px solid black;
+}
+
+.c-peru{
+    color: peru;
+}
+
+.span {
+    word-break: break-all;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.heading_class {
+    text-align: center;
+    font-weight: bold;
+    color:black;
+    font-size: 24px;
+}

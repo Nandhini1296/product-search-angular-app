@@ -1,0 +1,22 @@
+.c-peru{
+    color:peru;
+}
+
+.empty_results {
+    background-color: #fff0b3;
+    text-align: left;
+    border-color:#ffeb99;
+    border-style: solid;
+    color: #804d00;
+    font-family: helvetica;
+    height: 44px;
+    line-height: 44px;
+  }
+
+  .button_float{
+      float: right;
+  }
+
+  .alert-warning {
+      text-align: left;
+  }

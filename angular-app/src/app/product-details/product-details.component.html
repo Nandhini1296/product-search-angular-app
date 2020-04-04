@@ -1,0 +1,201 @@
+<div class="progress" [class.d-none]="details_progress">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width:50%"></div>
+</div>
+<div [class.d-none]="!details_progress" class="total_div">
+    <div id="header_enclosed">
+      <br><br>
+      <div *ngIf="current_product != null" class="heading_class">{{current_product.title}}</div>
+      <br>
+      <div class="button_float">
+          <button (click)="list_value_changer()" class="btn btn-sm btn-light d-flex justify-content-center align-content-between"><i class="material-icons md-12">keyboard_arrow_left</i>List</button>
+      </div>
+      <div class="icons_class">
+          <input type="image" (click)="shareToFacebook()" class="facebook_image" src="http://csci571.com/hw/hw8/Images/facebook.png" alt="facebook_share" width="37px" height="37px">
+          <!-- <button id= "cart_button" (click)="addtoCart()" class="btn btn-xs btn-light d-flex justify-content-center align-content-between"><i class="material-icons md-12">add_shopping_cart</i></button> -->
+          <td><div *ngIf="current_product != null">
+            <button (click)= "removefromCart()" *ngIf="current_product.wishlist == true" class="btn btn-xs btn-light d-flex justify-content-center align-content-between">
+              <i class="material-icons md-12 c-peru">remove_shopping_cart</i>
+            </button><button *ngIf="current_product.wishlist == false" (click)="addtoCart()"class="btn btn-xs btn-light d-flex justify-content-center align-content-between">
+              <i class="material-icons md-12">add_shopping_cart</i>
+            </button></div></td>
+      </div>
+    </div>
+  <br><br>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+        <p><b>Product Images</b></p>
+    </div>
+    <div class="modal-body">
+      <ngb-carousel *ngIf="parsed_product.images">
+        <ng-template *ngFor="let image of parsed_product.images" ngbSlide>
+          <div style="background-color: rgba(179,179,179,0.671)" class="text-center">
+            <a [href]="image" target="_blank"><img class="text-center" width="400" [src]="image"></a>
+          </div>
+        </ng-template>
+      </ngb-carousel>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-dark" (click)="modal.close('Save click')">Close</button>
+    </div>
+  </ng-template>
+  <div class="tabset-width">
+    <ngb-tabset class="tabset1" [justify]='alignment' type="pills">
+      <ngb-tab title="Product"><ng-template ngbTabContent>
+        <div id="details_table" class="table-responsive">
+          <table class="table table-dark table-striped table-condensed">
+            <tr *ngIf='parsed_product.images.length !=0'>
+              <td>Product Images</td><td class="word-wrap"><button class="btn btn-link text-left" style="margin: 0px; padding:0px;" (click)="openCarousal(content)">View Product images here</button></td>
+            </tr>
+            <tr *ngIf='parsed_product.subtitle != "N/A"'>
+                <td>Subtitle</td><td class="word-wrap">{{parsed_product.subtitle}}</td>
+            </tr>
+            <tr *ngIf='parsed_product.price != "N/A"'>
+              <td>Price</td><td class="word-wrap">{{parsed_product.price}}</td>
+            </tr>
+            <tr *ngIf='parsed_product.location != "N/A"'>
+              <td>Location</td><td class="word-wrap">{{parsed_product.location}}</td>
+            </tr>
+            <tr *ngIf='parsed_product.return_policy != "N/A"'>
+              <td>Return Policy</td><td class="word-wrap">{{parsed_product.return_policy}}</td>
+            </tr>
+            <tr *ngFor="let item of parsed_product.itemspecifics">
+              <td>{{item[0]}}</td><td class="word-wrap">{{item[1]}}</td>
+            </tr>
+          </table>
+        </div>
+      </ng-template></ngb-tab>
+      <ngb-tab title="Photos"><ng-template ngbTabContent> 
+        <div  *ngIf="photos_array.length != 0">
+          <div class="card-columns progress-bar-animated">
+            <div *ngFor="let item of photos_array">
+              <div class="card bordering" [class.d-none]="item==''">
+                <a href="{{item}}" target="_blank"><img class="card-img" src="{{item}}" alt="N/A"></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="photos_array.length == 0" class="alert alert-warning">
+          No Records.
+        </div>
+      </ng-template></ngb-tab>
+      <ngb-tab title="Shipping"><ng-template ngbTabContent>
+        <div *ngIf="shipping_info.length !=0" id="shipping_table" class="table-responsive">
+          <small>
+            <table class="table table-dark table-striped table-compact table-condensed">
+              <tr *ngFor="let item of shipping_info, index as i">
+                <td>{{item[0]}}</td>
+                <td>
+                  <span [ngClass] = "{'correct': (item[1]=='true'), 'wrong':(item[1]=='false')}">
+                    <i *ngIf="item[1]=='true'" class="material-icons md-18">done</i>
+                    <i *ngIf="item[1]=='false'" class="material-icons md-18">close</i>
+                    <p *ngIf="item[1]!='true' && item[1]!='false'">{{item[1]}}</p>
+                  </span>
+                </td>
+                <!-- <td>{{item[0]}}</td><td class="word-wrap"><i *ngIf="item[1]=='true' && i>=3" class="material-icons md-18">done</i><i *ngIf="item[1]=='false' && i>=3" class="material-icons md-18">close </i><p *ngIf="i<3">{{item[1]}}</p></td> -->
+              </tr>
+            </table>
+          </small>
+        </div>
+        <div *ngIf="shipping_info.length == 0" class="alert alert-warning">No Records.</div>
+      </ng-template></ngb-tab>
+      <ngb-tab title="Seller"><ng-template ngbTabContent>
+          <div *ngIf="show_seller" id="seller_table" class="table-responsive">
+              <table class="table table-dark table-striped table-condensed">
+                <tr *ngIf="current_product.user_id != 'N/A'">
+                  <td class="text-center" colspan="2">{{current_product.user_id | uppercase}}</td>
+                </tr>
+                <tr *ngIf="current_product.score != 'N/A'">
+                  <td>Feedback Score</td>
+                  <td>{{current_product.score}}</td>
+                </tr>
+                <tr *ngIf="current_product.popularity != 'N/A'">
+                  <td>Popularity</td>
+                  <td style="font-size:5pt;">
+                    <div class="percent_text">
+                      <div class="round_prog_div">
+                        <round-progress [color]="'green'" [radius]="15" [stroke]="2" [current]="current_product.popularity" [max]="100">{{current_product.popularity}}</round-progress>
+                      </div>
+                      {{current_product.popularity}}
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="current_product.top_rated != 'N/A'">
+                  <td>Top Rated</td>
+                  <td><i class="material-icons md-24" [ngClass]="{'correct' : (current_product.top_rated=='true'), 'wrong': (current_product.top_rated == 'false')}"><span *ngIf="current_product.top_rated=='true'">done</span><span *ngIf="current_product.top_rated == 'false'">close</span></i></td>
+                </tr>
+                <tr *ngIf="current_product.feedback_rating_star != 'N/A'">
+                  <td>Feedback Rating Star</td>
+                  <td>
+                    <i class="material-icons md-24" [ngClass]="{'s-white': (current_product.feedback_rating_star=='None'), 
+                    's-yellow' : (current_product.feedback_rating_star == 'Yellow' || current_product.feedback_rating_star == 'YellowShooting'), 
+                    's-turquoise': (current_product.feedback_rating_star =='Turquoise' || current_product.feedback_rating_star == 'TurquoiseShooting'), 
+                    's-purple': (current_product.feedback_rating_star=='Purple' || current_product.feedback_rating_star=='PurpleShooting'), 
+                    'wrong': (current_product.feedback_rating_star=='Red' || current_product.feedback_rating_star=='RedShooting'), 
+                    'correct' : (current_product.feedback_rating_star=='Green' || current_product.feedback_rating_star=='GreenShooting'), 
+                    's-blue' : (current_product.feedback_rating_star == 'Blue' || current_product.feedback_rating_star=='BlueShooting'), 
+                    's-silver': (current_product.feedback_rating_star=='Silver' || current_product.feedback_rating_star == 'SilverShooting')}">
+                    <span *ngIf="current_product.score >= 10000">stars</span>
+                    <span *ngIf="10000 >current_product.score">star_border</span>
+                    </i>
+                  </td>
+                </tr>
+                <tr *ngIf="current_product.store_name != 'N/A'">
+                  <td>Store Name</td>
+                  <td>{{current_product.store_name}}</td>
+                </tr>
+                <tr *ngIf="current_product.buy_product != 'N/A'">
+                  <td>Buy Product At</td>
+                  <td><a href="{{current_product.buy_product}}" target="_blank">Store</a></td>
+                </tr>
+              </table>
+            </div>
+          <div *ngIf= "!show_seller" class="alert alert-warning">No records.</div>
+      </ng-template></ngb-tab>
+      <ngb-tab title={{tab_text}}><ng-template ngbTabContent>
+        <br>
+        <div *ngIf="check_similar_items" class="word-wrap">
+          <form [formGroup]="sort_form"> 
+            <div class="row">
+              <div class="col-sm-2">
+                <select class="form-control custom-select" formControlName="category" (change)="SortProducts()">
+                  <option name="default" selected value="0">Default</option>
+                  <option name="prod_name" value="1">Product Name</option>
+                  <option name="p_price" value="2">Price</option>
+                  <option name="ship_cost" value="3">Shipping Cost</option>
+                  <option name="d_left" value="4">Days Left</option>
+                </select>
+              </div>
+              <div class="col-sm-2">
+                <select disabled class="form-control custom-select" formControlName="sortMethod" (change)="SortProducts()">
+                  <option name="ascending" selected value="1">Ascending</option>
+                  <option name="descending" value="-1">Descending</option>
+                </select>
+              </div>
+            </div>
+          </form>
+          <br>
+          <div class="table-responsive" >
+            <table class="table table-dark table-striped table-condensed" style="table-layout: fixed;">
+              <tr *ngFor="let item of similar_items; index as k" [class.d-none]="k>4 && show_more">
+                <td ><a href="{{item.image}}" target="_blank"><img src="{{item.image}}" width="112" height="112"></a></td>
+                <td  class="word-wrap"><span><a href="{{item.share}}" target="_blank">{{item.title}}</a></span><br><span class='s-green'>Price: {{item.price}}</span><br> <span class="s-yellow">Shipping Cost: {{item.shipping_cost}}</span><br><span>Days Left: {{item.days_left}}</span></td>
+                <!-- <br><br><br><br><br> -->
+                <!-- <button class="btn btn-dark" *ngIf="i==4 && show == 5 || i==similar_items.length - 1" (click)="tableToggle()">{{button_text}}</button> -->
+              </tr>
+            </table>
+          </div>
+          <br><br>
+          <div class="text-center">
+            <button type="button" [class.d-none]="!show_more" (click)="collapseTable()" class="btn btn-sm btn-default btn-dark">
+              Show More
+            </button>
+            <button type="button" [class.d-none]="show_more" (click)="collapseTable()" class="btn btn-sm btn-default btn-dark">
+                Show Less
+              </button>
+          </div>
+        </div>
+        <div *ngIf="!check_similar_items" class="alert alert-warning">No Records.</div>
+      </ng-template></ngb-tab>
+    </ngb-tabset>
+  </div>
+</div>

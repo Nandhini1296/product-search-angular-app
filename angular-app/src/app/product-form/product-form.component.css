@@ -1,0 +1,50 @@
+:host {
+    display: block;
+    overflow: hidden; 
+  }
+
+.parent {
+  height: 100%;
+  width: 200%;      
+  display: flex;   
+}
+
+.parent div { 
+  flex: 1; 
+}  
+
+.empty_results {
+  background-color: #fff0b3;
+  text-align: left;
+  border-color:#ffeb99;
+  border-style: solid;
+  color: #804d00;
+  font-family: helvetica;
+  height: 44px;
+  line-height: 44px;
+}
+
+.alert-warning {
+  text-align: left;
+}
+
+.wish_class{
+  overflow: scroll;
+}
+
+.results_class{
+  overflow:scroll;
+}
+
+      
+.centered-button{
+  margin: 0 auto;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.tb-2{
+  margin: 0 auto;
+  text-align: center;
+  justify-content: center;
+}
